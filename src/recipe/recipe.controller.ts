@@ -1,5 +1,19 @@
-import { Controller, Get, Param, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseFilePipe,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { RecipeService } from './recipe.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { createRecipe } from './dto/recipe.dto';
 
 @Controller('recipe')
 export class RecipeController {
@@ -18,5 +32,15 @@ export class RecipeController {
   async ambilDataId(@Param('slug') slug: string) {
     console.log(`kocak`, slug);
     return await this.serviceRecipe.getId(slug);
+  }
+
+  @Post()
+  @UsePipes(ValidationPipe)
+  @UseInterceptors(FileInterceptor('image'))
+  async postDataRecipe(
+    @UploadedFile(new ParseFilePipe({})) file: Express.Multer.File,
+    @Body() data: createRecipe,
+  ) {
+    return this.serviceRecipe.postData(data, file);
   }
 }

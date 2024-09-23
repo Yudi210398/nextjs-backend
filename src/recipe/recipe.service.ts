@@ -1,9 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaPostgreService } from 'src/prisma_postgre/prisma_postgre.service';
-
+import slugify from 'slugify';
+import { createRecipe } from './dto/recipe.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 @Injectable()
 export class RecipeService {
-  constructor(private prismaService: PrismaPostgreService) {}
+  constructor(
+    private prismaService: PrismaPostgreService,
+    private cloudService: CloudinaryService,
+  ) {}
+
+  async postData(datas: createRecipe, file: Express.Multer.File) {
+    const data = await this.cloudService.uploadFile(file);
+
+    const sliugs = slugify(datas.title, { lower: true });
+
+    return await this.prismaService.meal.create({
+      data: {
+        title: datas.title,
+        slug: sliugs,
+        image: data as string,
+        instructions: datas.instructions,
+        creator: datas.creator,
+        creator_email: datas.creator_email,
+        summary: datas.summary,
+      },
+    });
+  }
 
   async sayHello() {
     return await this.prismaService.meal.createMany({
