@@ -39,8 +39,9 @@ export class RecipeController {
   @UseInterceptors(FileInterceptor('image'))
   async postDataRecipe(
     @UploadedFile(new ParseFilePipe({})) file: Express.Multer.File,
-    @Body() data: createRecipe,
+    @Body() data,
   ) {
+    console.log(data, file, `wkwk`);
     return this.serviceRecipe.postData(data, file);
   }
 }

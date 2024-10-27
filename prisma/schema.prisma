@@ -20,8 +20,8 @@ model Meal {
   image         String @db.Text
   summary       String @db.Text
   instructions  String @db.Text
-  creator       String @db.VarChar(100)
-  creator_email String @unique @db.VarChar(100)
+  creator       String @default("Yudi Runat") @db.VarChar(100)
+  creator_email String @unique @default("yudi.runat@gmail.com") @db.VarChar(100)
 
   @@map("meals")
 }

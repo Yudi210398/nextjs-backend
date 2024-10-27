@@ -1,22 +1,20 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class createRecipe {
-  @IsNotEmpty({ message: 'Tidak Boleh kosong,' })
+  @IsNotEmpty({ message: 'Tidak Boleh kosong title,' })
   title: string;
 
   slug?: string;
 
   image?: string;
 
-  @IsNotEmpty({ message: 'Tidak Boleh kosong,' })
+  @IsNotEmpty({ message: 'Tidak Boleh kosong summary,' })
   summary: string;
 
-  @IsNotEmpty({ message: 'Tidak Boleh kosong,' })
+  @IsNotEmpty({ message: 'Tidak Boleh kosong, instructions' })
   instructions: string;
 
-  @IsNotEmpty({ message: 'Tidak Boleh kosong,' })
-  creator: string;
+  creator?: string;
 
-  @IsNotEmpty({ message: 'Tidak Boleh kosong,' })
-  creator_email: string;
+  creator_email?: string;
 }

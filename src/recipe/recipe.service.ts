@@ -10,7 +10,8 @@ export class RecipeService {
     private cloudService: CloudinaryService,
   ) {}
 
-  async postData(datas: createRecipe, file: Express.Multer.File) {
+  async postData(datas, file: Express.Multer.File) {
+    console.log(file, `wkwkwk`);
     const data = await this.cloudService.uploadFile(file);
 
     const sliugs = slugify(datas.title, { lower: true });
